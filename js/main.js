@@ -18,6 +18,7 @@ function init() {
 function addSortEvents() {
 	document.querySelector("#sort-up").addEventListener("click", function () {
 		sortDirection = "up";
+		console.log("up!");
 	});
 	document.querySelector("#sort-down").addEventListener("click", function () {
 		sortDirection = "down";
@@ -29,13 +30,19 @@ function addSortEvents() {
 function addVoteEvents() {
 	//TODO: add eventListener to all upVote and downVote buttons
 	const upVoteButtons = document.querySelectorAll(".upvote-button");
-    upVoteButtons.forEach(function(button){
-        button.addEventListener('click', function(){
-            console.log(this.value);
-            upVote(this.value);
-        })
-    })
-    
+	upVoteButtons.forEach(function (button) {
+		button.addEventListener("click", function () {
+			console.log(this.value);
+			upVote(this.value);
+		});
+	});
+	const downVoteButtons = document.querySelectorAll(".downvote-button");
+	downVoteButtons.forEach(function (button) {
+		button.addEventListener("click", function () {
+			console.log(this.value);
+			downVote(this.value);
+		});
+	});
 }
 
 function sort() {
@@ -85,10 +92,12 @@ function render(data) {
 }
 
 function upVote(value) {
-    updateScore(value, 0.1);
+	updateScore(value, 0.1);
 }
 
-function downVote(value) {}
+function downVote(value) {
+	updateScore(value, 0.1);
+}
 
 function updateScore(word, scoreChange) {
 	const foundIndex = adjectives.findIndex(function (item, index) {
