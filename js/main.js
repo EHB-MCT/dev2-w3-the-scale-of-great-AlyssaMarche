@@ -32,14 +32,14 @@ function addVoteEvents() {
 	const upVoteButtons = document.querySelectorAll(".upvote-button");
 	upVoteButtons.forEach(function (button) {
 		button.addEventListener("click", function () {
-			console.log(this.value);
+			console.log("Upvote clicked! Value:", this.value);
 			upVote(this.value);
 		});
 	});
 	const downVoteButtons = document.querySelectorAll(".downvote-button");
 	downVoteButtons.forEach(function (button) {
 		button.addEventListener("click", function () {
-			console.log(this.value);
+			console.log("Downvote clicked! Value:", this.value);
 			downVote(this.value);
 		});
 	});
@@ -81,8 +81,8 @@ function render(data) {
             <span class="word-score bad">${adjective.score}</span>
             <span>${adjective.word}</span>
             <div class="vote-buttons">
-                <button value="${adjective.word}" class="upvote-button">👍</button>
-                <button value="${adjective.word}" class="downvote-button">👎</button>
+                <button value="${adjective.score}" class="upvote-button">👍</button>
+                <button value="${adjective.score}" class="downvote-button">👎</button>
             </div>
         </div>`;
 	});
@@ -92,11 +92,11 @@ function render(data) {
 }
 
 function upVote(value) {
-	updateScore(value, 0.1);
+	updateScore(value, +0.1);
 }
 
 function downVote(value) {
-	updateScore(value, 0.1);
+	updateScore(value, -0.1);
 }
 
 function updateScore(word, scoreChange) {
