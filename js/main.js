@@ -23,8 +23,8 @@ function render(data) {
 	//TODO: 3.1 Create empty string variable
 	//TODO: 3.2 Add HTML string for each adjective in adjectives
 	//TODO: 3.3 Add HTML string to #container
+    let html = ""
     
-
 }
 
 function upVote(target) {}
