@@ -77,59 +77,63 @@ function sort() {
 }
 
 function render() {
-	const sjabloon = document.querySelector(`#container`);
-	sjabloon.innerHTML = ""
-	//console.log("rendering!")
-	//TODO: 3.1 Create empty string variable
+	// TODO 3.1: add HTML to HTML string forEach adjective in adjectives
+	const sjabloon = document.querySelector("#container");
+	sjabloon.innerHTML = "";
 	let HTML = "";
-	//TODO: 3.2 Add HTML string for each adjective in adjectives
+
+	// bv staat voor bijvoeglijk naamwoord hier
 	adjectives.forEach(function (bv) {
-		"bad"
-        if (bv.score >= 5) {
-            classScore = "good";
-        } else {
-            classScore = "bad";
-        }
-		//console.log(adjective.word, adjective.score);
-		HTML += `<div class="word-item">
-            <span class="word-score bad">${bv.score}</span>
-            <span>${bv.word}</span>
-            <div class="vote-buttons">
-                <button value="${bv.score}" class="upvote-button">👍</button>
-                <button value="${bv.score}" class="downvote-button">👎</button>
-            </div>
-        </div>`;
+		// TODO 3.2: add class based on score (>= 6 is 'good')
+		let classScore = "";
+		// Alle woorden die 6 of hoger zijn dan 6 zijn "good". De rest is "bad"
+		if (bv.score >= 6) {
+			classScore = "good";
+		} else {
+			classScore = "bad";
+		}
+
+		HTML += `
+			 <div class="word-item">
+				<span class="word-score ${classScore}">${bv.score}</span>
+				<span>${bv.word}</span>
+				<div class="vote-buttons">
+					<button value=${bv.word} class="upvote-button">👍</button>
+					<button value=${bv.word} class="downvote-button">👎</button>
+				</div>
+			</div>
+			`;
 	});
-	//TODO: 3.3 Add HTML string to #container
-	HTML += "</div>"
-    sjabloon.innerHTML = HTML;
+	// TODO 3.3: HTML string toevoegen aan container
+	// Data in string verwerken
+	HTML += "</div>";
+	sjabloon.innerHTML = HTML;
+
+	// We zetten addVoteEvents hier, omdat we eerst nog alles moeten renderen
 	addVoteEvents();
 }
 
-function upVote(target) {
+function upVote(target) {}
 
-}
-
-function downVote(target) {
-}
+function downVote(target) {}
 
 function updateScore(word, scoreChange) {
-	    // Wat is findIndex? retourneert de index (positie) van het eerste element dat een test doorstaat
-		const foundIndex = adjectives.findIndex(function (item, index) {
-			// item.word == word -> als we het woord terugvinden dan returnen we true
-			if (item.word == word) {
-				return true
-			}
-		});
-	 
-		// we vergelijken foundIndex met null (null is leeg)
-		if (foundIndex != null) {
-			let newScore = adjectives[foundIndex]['score'] + scoreChange;
-			adjectives[foundIndex]['score'] = Math.round(newScore * 100) / 100;
+	// Wat is findIndex? retourneert de index (positie) van het eerste element dat een test doorstaat
+	const foundIndex = adjectives.findIndex(function (item, index) {
+		// item.word == word -> als we het woord terugvinden dan returnen we true
+		if (item.word == word) {
+			return true;
 		}
-	 
-		// We roepen render(); op om de score nog eens te updaten en zo de juiste update te weergeven
-		render();
+	});
+
+	// we vergelijken foundIndex met null (null is leeg)
+	if (foundIndex != null) {
+		let newScore = adjectives[foundIndex]["score"] + scoreChange;
+		adjectives[foundIndex]["score"] = Math.round(newScore * 100) / 100;
 	}
+
+	// We roepen render(); op om de score nog eens te updaten en zo de juiste update te weergeven
+	render();
+}
 
 init();
