@@ -30,24 +30,31 @@ function addSortEvents() {
 
 function addVoteEvents() {
 	//TODO: add eventListener to all upVote and downVote buttons
-	const upVoteButtons = document.querySelectorAll(".upvote-button");
-	upVoteButtons.forEach(function (button) {
-		button.addEventListener("click", function () {
-			console.log("Upvote clicked! Value:", this.value);
-			updateScore(event.target.value, 0.1);
-			upVote();
-		});
-	});
-	const downVoteButtons = document.querySelectorAll(".downvote-button");
-	downVoteButtons.forEach(function (button) {
-		button.addEventListener("click", function () {
-			console.log("Downvote clicked! Value:", this.value);
-			updateScore(event.target.value, -0, 1);
-			downVote();
-		});
-	});
+	const upVoteButtons = document.querySelectorAll('.upvote-button');
+    upVoteButtons.forEach(function (button) {
+        // event nodig om te weten op welk woord er wordt geklikt
+        button.addEventListener('click', function (event) {
+            // We gebruiken event target zodat we weten op welk woord we klikken
+            console.log(event.target.value);
+            // We doen 0.1 omdat we upvote doen
+            // We roepen de updateScore(); op om onze score te berekenen
+            updateScore(event.target.value, 0.1);
+            upVote();
+        });
+    });
+ 
+    const downVoteButtons = document.querySelectorAll('.downvote-button');
+    downVoteButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            // We gebruiken event target zodat we weten op welk woord we klikken
+            console.log(event.target.value);
+            // We doen -0.1 omdat we downvote doen
+            // We roepen de updateScore(); op om onze score te berekenen
+            updateScore(event.target.value, -0.1);
+            downVote();
+        });
+    });
 }
-
 function sort() {
 	// TODO: welke richting?
 	if (sortDirection == "up") {
