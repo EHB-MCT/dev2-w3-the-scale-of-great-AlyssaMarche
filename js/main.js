@@ -10,21 +10,22 @@ function init() {
 	//TODO: 2 data converteren naar JS object
 	adjectives = JSON.parse(data);
 	//TODO: 3 call render functie
-	render();
+	render(adjectives);
 	//TODO: 4 call addSortEvents
-	addSortEvents();
+	addSortEvents(adjectives);
 }
 
 function addSortEvents() {
 	document.querySelector("#sort-up").addEventListener("click", function () {
 		sortDirection = "up";
 		console.log("up!");
+		sort(adjectives);
 	});
 	document.querySelector("#sort-down").addEventListener("click", function () {
 		sortDirection = "down";
 		console.log("down!");
+		sort(adjectives);
 	});
-	sort();
 }
 
 function addVoteEvents() {
@@ -33,14 +34,16 @@ function addVoteEvents() {
 	upVoteButtons.forEach(function (button) {
 		button.addEventListener("click", function () {
 			console.log("Upvote clicked! Value:", this.value);
-			upVote(this.value);
+			updateScore(event.target.value, 0.1);
+			upVote();
 		});
 	});
 	const downVoteButtons = document.querySelectorAll(".downvote-button");
 	downVoteButtons.forEach(function (button) {
 		button.addEventListener("click", function () {
 			console.log("Downvote clicked! Value:", this.value);
-			downVote(this.value);
+			updateScore(event.target.value, -0, 1);
+			downVote();
 		});
 	});
 }
@@ -48,15 +51,19 @@ function addVoteEvents() {
 function sort() {
 	// TODO: welke richting?
 	if (sortDirection == "up") {
-		adjectives.sort(function (a, b) {
+		adjectives = adjectives.sort(function (a, b) {
+			// TODO: sort
+			// < -> voor sort up
 			if (a.score < b.score) {
 				return 1;
 			} else {
 				return -1;
 			}
 		});
-	} else {
-		adjectives.sort(function (a, b) {
+	} else if (sortDirection == "down") {
+		adjectives = adjectives.sort(function (a, b) {
+			// TODO: sort
+			// > -> voor sort down
 			if (a.score > b.score) {
 				return 1;
 			} else {
@@ -64,52 +71,65 @@ function sort() {
 			}
 		});
 	}
-	// TODO: sorteren
-	// TODO: Render / update html
-
+	// TODO: render
+	// We zetten dit beneden zodat de scores ook gesorteerd worden
 	render();
 }
 
-function render(data) {
+function render() {
+	const sjabloon = document.querySelector(`#container`);
+	sjabloon.innerHTML = ""
 	//console.log("rendering!")
 	//TODO: 3.1 Create empty string variable
-	let htmlString = "";
+	let HTML = "";
 	//TODO: 3.2 Add HTML string for each adjective in adjectives
-	adjectives.forEach(function (adjective) {
+	adjectives.forEach(function (bv) {
+		"bad"
+        if (bv.score >= 5) {
+            classScore = "good";
+        } else {
+            classScore = "bad";
+        }
 		//console.log(adjective.word, adjective.score);
-		htmlString += `<div class="word-item">
-            <span class="word-score bad">${adjective.score}</span>
-            <span>${adjective.word}</span>
+		HTML += `<div class="word-item">
+            <span class="word-score bad">${bv.score}</span>
+            <span>${bv.word}</span>
             <div class="vote-buttons">
-                <button value="${adjective.score}" class="upvote-button">👍</button>
-                <button value="${adjective.score}" class="downvote-button">👎</button>
+                <button value="${bv.score}" class="upvote-button">👍</button>
+                <button value="${bv.score}" class="downvote-button">👎</button>
             </div>
         </div>`;
 	});
 	//TODO: 3.3 Add HTML string to #container
-	document.querySelector("#container").innerHTML = htmlString;
+	HTML += "</div>"
+    sjabloon.innerHTML = HTML;
 	addVoteEvents();
 }
 
-function upVote(value) {
-	updateScore(value, +0.1);
+function upVote(target) {
+
 }
 
-function downVote(value) {
-	updateScore(value, -0.1);
+function downVote(target) {
 }
 
 function updateScore(word, scoreChange) {
-	const foundIndex = adjectives.findIndex(function (item, index) {
-		if (item.word == word) {
-			return true;
+	    // Wat is findIndex? retourneert de index (positie) van het eerste element dat een test doorstaat
+		const foundIndex = adjectives.findIndex(function (item, index) {
+			// item.word == word -> als we het woord terugvinden dan returnen we true
+			if (item.word == word) {
+				return true
+			}
+		});
+	 
+		// we vergelijken foundIndex met null (null is leeg)
+		if (foundIndex != null) {
+			let newScore = adjectives[foundIndex]['score'] + scoreChange;
+			adjectives[foundIndex]['score'] = Math.round(newScore * 100) / 100;
 		}
-	});
-
-	if (foundIndex != null) {
-		let newScore = adjectives[foundIndex]["score"] + scoreChange;
-		adjectives[foundIndex]["score"] = Math.round(newScore * 100) / 100;
+	 
+		// We roepen render(); op om de score nog eens te updaten en zo de juiste update te weergeven
+		render();
 	}
-}
 
 init();
