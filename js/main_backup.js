@@ -129,7 +129,7 @@ function upVote(target) {
 	console.log("Upvote", target.value);
 	fetch(`https://dev2-prima.onrender.com/upvote/${target.value}`).then(
 		function (response) {
-			console.log("Upvote complete");
+			console.log("Upvote complete", response);
 			init();
 		}
 	);
@@ -140,7 +140,7 @@ function downVote(target) {
 	console.log("Downvote", target.value);
 	fetch(`https://dev2-prima.onrender.com/downvote/${target.value}`).then(
 		function (response) {
-			console.log("Upvote complete");
+			console.log("Upvote complete", response);
 			init();
 		}
 	);
