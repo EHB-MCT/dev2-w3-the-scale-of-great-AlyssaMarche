@@ -1,5 +1,12 @@
 import { getAdjectives } from "./data.js";
 
+(function(){
+	var f = function() {
+	  init();
+	};
+	window.setInterval(f, 10000);
+	f();
+  })();
 let adjectives;
 let sortDirection = "up";
 
