@@ -39,7 +39,7 @@ function addVoteEvents() {
 			// We gebruiken event target zodat we weten op welk woord we klikken
 			console.log(event.target.value);
 
-			upVote();
+			upVote(event.target);
 		});
 	});
 
@@ -49,7 +49,7 @@ function addVoteEvents() {
 			// We gebruiken event target zodat we weten op welk woord we klikken
 			console.log(event.target.value);
 
-			downVote();
+			downVote(event.target);
 		});
 	});
 }
